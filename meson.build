@@ -1,4 +1,4 @@
-project('cge', language : 'cpp',
+project('cge', 'cpp',
   version : '0.1',
   default_options : ['cpp_std=c++17'])
 
