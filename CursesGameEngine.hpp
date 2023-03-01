@@ -274,6 +274,30 @@ namespace cge
                 Draw(x1, y, color);
             }
         }
+        void DrawTriangle(int x0, int y0, int x1, int y1, int x2, int y2, uint8_t color)
+        {
+            DrawLine(x0, y0, x1, y1, color);
+            DrawLine(x1, y1, x2, y2, color);
+            DrawLine(x2, y2, x0, y0, color);
+        }
+        void FillTriangle(int ax, int ay, int bx, int by, int cx, int cy, uint8_t color)
+        {
+            int min_x = std::min(ax, std::min(bx, cx));
+            int min_y = std::min(ay, std::min(by, cy));
+            int max_x = std::max(ax, std::max(bx, cx));
+            int max_y = std::max(ay, std::max(by, cy));
+
+            int S = std::abs((bx - ax) * (cy - ay) - (by - ay) * (cx - ax));
+            for (int y = min_y; y <= max_y; y++) {
+                for (int x = min_x; x <= max_x; x++) {
+                    int Sa = std::abs((x - cx) * (by - cy) - (y - cy) * (bx - cx));
+                    int Sb = std::abs((x - cx) * (ay - cy) - (y - cy) * (ax - cx));
+                    int Sc = std::abs((x - ax) * (by - ay) - (y - ay) * (bx - ax));
+                    if (Sa + Sb + Sc == S)
+                        Draw(x, y, color);
+                }
+            }
+        }
         void FillRectangle(int x0, int y0, int x1, int y1, uint8_t bColor) {}
         void FillPie(int x, int y, float angle, uint8_t bColor) {}
         void FillCircle(int center_x, int center_y, int r, uint8_t color)
